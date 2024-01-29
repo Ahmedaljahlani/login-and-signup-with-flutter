@@ -80,18 +80,19 @@ class UserProfileSection extends StatelessWidget {
       clipBehavior: Clip.none,
       children: <Widget>[
         Container(
-          height: 200,
+          height: 120,
+          margin: EdgeInsets.symmetric(horizontal: 12),
           decoration: BoxDecoration(
             color: Colors.blue,
+            borderRadius: BorderRadius.circular(16),
             image: DecorationImage(
               image: AssetImage('assets/images/bg.jpg'),
               fit: BoxFit.cover,
             ),
           ),
         ),
-        if (user.profileImageUrl != null)
           Positioned(
-            left: 16,
+            left: 32,
             bottom: -50,
             child: _buildUserAvatar(),
           ),
@@ -99,15 +100,36 @@ class UserProfileSection extends StatelessWidget {
     );
   }
 
+  // Widget _buildUserAvatar() {
+  //   return Container(
+  //     width: 100,
+  //     height: 100,
+  //     decoration: BoxDecoration(
+  //       shape: BoxShape.circle,
+  //       color: Colors.green.shade400,
+  //       image: DecorationImage(
+  //         image: NetworkImage('${user.profileImageUrl}'),
+  //         fit: BoxFit.contain,
+  //       ),
+  //       border: Border.all(
+  //         color: Colors.white,
+  //         width: 3.0,
+  //       ),
+  //     ),
+  //   );
+  // }
+
   Widget _buildUserAvatar() {
     return Container(
-      width: 150,
-      height: 150,
+      width: 100,
+      height: 100,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.green.shade400,
+        color: Colors.blue.shade400,
         image: DecorationImage(
-          image: NetworkImage('${user.profileImageUrl}'),
+          image: user.profileImageUrl != null
+              ? NetworkImage('${user.profileImageUrl}') as ImageProvider<Object>
+              : AssetImage('assets/images/user_avatar.png') as ImageProvider<Object>, // replace with your placeholder image path
           fit: BoxFit.contain,
         ),
         border: Border.all(
@@ -117,6 +139,7 @@ class UserProfileSection extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _buildUserInfo() {
     return Container(

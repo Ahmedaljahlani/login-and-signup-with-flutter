@@ -25,12 +25,14 @@ class SignUpPage extends StatelessWidget {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             child: Column(
               children: <Widget>[
+                _buildSignupIllustration(),
                 _buildTextFormField(
                   controller: _fullNameController,
                   labelText: 'Full Name',
                   validator: (value) =>
                       value!.isEmpty ? 'Please enter your full name' : null,
                   onChanged: userProvider.updateFullName,
+                  prefixIcon:Icon(Icons.person),
                 ),
                 _buildTextFormField(
                   controller: _usernameController,
@@ -38,6 +40,7 @@ class SignUpPage extends StatelessWidget {
                   validator: (value) =>
                       value!.isEmpty ? 'Please enter your username' : null,
                   onChanged: userProvider.updateUsername,
+                  prefixIcon:Icon(Icons.person_outline),
                 ),
                 _buildTextFormField(
                   controller: _passwordController,
@@ -46,6 +49,7 @@ class SignUpPage extends StatelessWidget {
                   validator: (value) =>
                       value!.isEmpty ? 'Please enter your password' : null,
                   onChanged: userProvider.updatePassword,
+                  prefixIcon:Icon(Icons.lock),
                 ),
                 _buildTextFormField(
                   controller: _confirmPasswordController,
@@ -58,6 +62,7 @@ class SignUpPage extends StatelessWidget {
                     return null;
                   },
                   onChanged: (String) {},
+                  prefixIcon:Icon(Icons.lock_outline),
                 ),
                 _buildTextFormField(
                   controller: _emailController,
@@ -69,6 +74,7 @@ class SignUpPage extends StatelessWidget {
                     return null;
                   },
                   onChanged: userProvider.updateEmail,
+                  prefixIcon:Icon(Icons.email),
                 ),
                 SizedBox(
                   height: 16.0,
@@ -82,12 +88,20 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
+  Widget _buildSignupIllustration() {
+    return Image.asset(
+      'assets/images/user_illustration.png', // replace with your image path
+      fit: BoxFit.cover,
+    );
+  }
+
   Widget _buildTextFormField({
     required TextEditingController controller,
     required String labelText,
     required String? Function(String?) validator,
     required void Function(String) onChanged,
     bool obscureText = false,
+    Icon? prefixIcon,
   }) {
     return Padding(
       padding: const EdgeInsets.only(top: 12.0),
@@ -96,7 +110,8 @@ class SignUpPage extends StatelessWidget {
         onChanged: onChanged,
         decoration: InputDecoration(
           labelText: labelText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(24),),
+          prefixIcon: prefixIcon,
           contentPadding: EdgeInsets.symmetric(
               vertical: 16.0,
               horizontal: 10.0), // adjust the vertical padding here
@@ -123,6 +138,7 @@ class SignUpPage extends StatelessWidget {
             userProvider.toggleLoading();
             try {
               await userProvider.signUp(
+                _fullNameController.text,
                 _usernameController.text,
                 _passwordController.text,
                 _emailController.text,
@@ -145,7 +161,7 @@ class SignUpPage extends StatelessWidget {
         },
         child: userProvider.isLoading
             ? CircularProgressIndicator()
-            : Text('Sign Up'),
+            : Text('Sign Up',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
       ),
     );
   }

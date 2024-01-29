@@ -163,11 +163,12 @@ class UserProvider extends ChangeNotifier {
   //     throw Exception('Failed to sign up');
   //   }
   // }
-  Future<void> signUp(
+  Future<void> signUp(String fullname,
       String username, String password, String email, String role) async {
     final response = await http.post(
       Uri.parse(signUpUrl),
       body: {
+        'full_name':fullname,
         'username': username,
         'password': password,
         'email': email,
@@ -175,11 +176,13 @@ class UserProvider extends ChangeNotifier {
       },
     );
 
+    print('full name is: $fullname');
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       if (data['error'] != null) {
         throw Exception(data['error']);
       } else {
+        _fullname = fullname;
         _username = username;
         _password = password;
         _email = email;
