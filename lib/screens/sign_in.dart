@@ -42,7 +42,7 @@ class SignInPage extends StatelessWidget {
                       _buildDivider(context),
                       const SizedBox(height: 16.0),
                       _buildGoogleSignInButton(),
-                      Container(height: 50), // Replace Spacer with Container
+                      Container(height: 30), // Replace Spacer with Container
                       _buildSignUpButton(context),
                     ],
                   ),
@@ -57,7 +57,7 @@ class SignInPage extends StatelessWidget {
 
   Widget _buildLoginIllustration() {
     return Image.asset(
-      // height: 300,
+      height: 300,
       'assets/images/user_illustration.png', // replace with your image path
       fit: BoxFit.cover,
     );
@@ -163,6 +163,13 @@ class SignInPage extends StatelessWidget {
     );
   }
 
+  TextButton _buildForgotPasswordButton() {
+    return TextButton(
+      onPressed: () {}, // Navigate to Forgot Password page
+      child: const Text('Forgot password?'),
+    );
+  }
+
   ElevatedButton _buildSignInButton(
       UserProvider userProvider, BuildContext context) {
     return ElevatedButton(
@@ -253,13 +260,6 @@ class SignInPage extends StatelessWidget {
       onPressed: () => Navigator.push(
           context, MaterialPageRoute(builder: (context) => SignUpPage())),
       child: const Text('Create an account'),
-    );
-  }
-
-  TextButton _buildForgotPasswordButton() {
-    return TextButton(
-      onPressed: () {}, // Navigate to Forgot Password page
-      child: const Text('Forgot password?'),
     );
   }
 }

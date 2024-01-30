@@ -3,12 +3,14 @@ import 'package:gearandspare_login_signin/screens/home.dart';
 import 'package:provider/provider.dart';
 
 import 'models/user_model.dart';
+import 'screens/edit_field.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => EditFieldController()),
         // ChangeNotifierProvider(create: (context) => GoogleSignInProvider()),
         // Add other providers here
       ],

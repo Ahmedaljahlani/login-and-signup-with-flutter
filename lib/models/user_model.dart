@@ -15,6 +15,11 @@ class UserProvider extends ChangeNotifier {
   String _username = '';
   String _password = '';
   String _email = '';
+  String _bio = '';
+  String _phoneNumber = '';
+  String _address = '';
+  String _country = '';
+  String _city = '';
   String _userRole = 'Buyer';
   bool _isObscure = true;
   bool _rememberMe = false;
@@ -34,6 +39,16 @@ class UserProvider extends ChangeNotifier {
   String get password => _password;
 
   String get email => _email;
+
+  String get bio => _bio;
+
+  String get phoneNumber => _phoneNumber;
+
+  String get address => _address;
+
+  String get country => _country;
+
+  String get city => _city;
 
   String get userRole => _userRole;
 
@@ -67,6 +82,26 @@ class UserProvider extends ChangeNotifier {
 
   void updateEmail(String email) {
     _email = email;
+  }
+
+  void updateBio(String bio) {
+    _bio = bio;
+  }
+
+  void updatePhoneNumber(String phoneNumber) {
+    _phoneNumber = phoneNumber;
+  }
+
+  void updateAddress(String address) {
+    _address = address;
+  }
+
+  void updateCountry(String country) {
+    _country = country;
+  }
+
+  void updateCity(String city) {
+    _city = city;
   }
 
   void toggleObscure() {
@@ -135,40 +170,12 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  // Future<void> signUp(
-  //     String username, String password, String email, String role) async {
-  //   final response = await http.post(
-  //     Uri.parse(signUpUrl),
-  //     body: {
-  //       'username': username,
-  //       'password': password,
-  //       'email': email,
-  //       'role': role,
-  //     },
-  //   );
-  //
-  //   if (response.statusCode == 200) {
-  //     var data = jsonDecode(response.body);
-  //     if (data['error'] != null) {
-  //       throw Exception(data['error']);
-  //     } else {
-  //       _isSignedIn = true;
-  //       _username = username;
-  //       _password = password;
-  //       _email = email;
-  //       _userRole = role;
-  //       notifyListeners();
-  //     }
-  //   } else {
-  //     throw Exception('Failed to sign up');
-  //   }
-  // }
-  Future<void> signUp(String fullname,
-      String username, String password, String email, String role) async {
+  Future<void> signUp(String fullname, String username, String password,
+      String email, String role) async {
     final response = await http.post(
       Uri.parse(signUpUrl),
       body: {
-        'full_name':fullname,
+        'full_name': fullname,
         'username': username,
         'password': password,
         'email': email,
@@ -193,6 +200,39 @@ class UserProvider extends ChangeNotifier {
       throw Exception('Failed to sign up');
     }
   }
+
+  Future<void> updateProfile(String field, String value) async {
+    const String updateProfileUrl =
+        'http://192.168.1.103/gearandspare/edit_profile.php';
+    toggleLoading();
+    try {
+      final response = await http.post(
+        Uri.parse(updateProfileUrl),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({
+          'username': _username,
+          field: value,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        if (data['error'] != null) {
+          throw Exception(data['error']);
+        } else {
+          notifyListeners();
+        }
+      } else {
+        throw Exception('Failed to update profile');
+      }
+    } catch (e) {
+      print('Error updating profile: $e');
+    } finally {
+      toggleLoading();
+    }
+  }
+
+
 
   void _loadLoginState() async {
     final prefs = await SharedPreferences.getInstance();
@@ -222,75 +262,14 @@ class UserProvider extends ChangeNotifier {
   }
 }
 
-// String _firstName = '';
-// String _lastName = '';
-// String _dateOfBirth = '';
-// String _gender = '';
-// String _phoneNumber = '';
-// String _address = '';
-// String _country = '';
-// String _city = '';
-// String _countryCode = '';
-//
-// String get firstName => _firstName;
-// String get lastName => _lastName;
-// String get dateOfBirth => _dateOfBirth;
-// String get gender => _gender;
-// String get phoneNumber => _phoneNumber;
-// String get address => _address;
-// String get country => _country;
-// String get city => _city;
-// String get countryCode => _countryCode;
-//
-// void updateFirstName(String firstName) {
-//   _firstName = firstName;
-//   notifyListeners();
-// }
-//
-// void updateLastName(String lastName) {
-//   _lastName = lastName;
-//   notifyListeners();
-// }
-//
-// void updateDateOfBirth(String dateOfBirth) {
-//   _dateOfBirth = dateOfBirth;
-//   notifyListeners();
-// }
-//
-// void updateGender(String gender) {
-//   _gender = gender;
-//   notifyListeners();
-// }
-//
-// void updatePhoneNumber(String phoneNumber) {
-//   _phoneNumber = phoneNumber;
-//   notifyListeners();
-// }
-//
-// void updateAddress(String address) {
-//   _address = address;
-//   notifyListeners();
-// }
-//
-// void updateCountry(String country) {
-//   _country = country;
-//   notifyListeners();
-// }
-//
-// void updateCity(String city) {
-//   _city = city;
-//   notifyListeners();
-// }
-//
-// void updateCountryCode(String countryCode) {
-//   _countryCode = countryCode;
-//   notifyListeners();
-// }
-//
-// // ... existing code ...
-//
+
+
+
+
+
+
 // Future<void> signUp(
-//     String username, String password, String email, String role, String firstName, String lastName, String dateOfBirth, String gender, String phoneNumber, String address, String country, String city, String countryCode) async {
+//     String username, String password, String email, String role) async {
 //   final response = await http.post(
 //     Uri.parse(signUpUrl),
 //     body: {
@@ -298,19 +277,22 @@ class UserProvider extends ChangeNotifier {
 //       'password': password,
 //       'email': email,
 //       'role': role,
-//       'first_name': firstName,
-//       'last_name': lastName,
-//       'date_of_birth': dateOfBirth,
-//       'gender': gender,
-//       'phone_number': phoneNumber,
-//       'address': address,
-//       'country': country,
-//       'city': city,
-//       'country_code': countryCode,
-//       // add other fields as needed...
 //     },
 //   );
 //
-//   // ... existing code ...
-// }
+//   if (response.statusCode == 200) {
+//     var data = jsonDecode(response.body);
+//     if (data['error'] != null) {
+//       throw Exception(data['error']);
+//     } else {
+//       _isSignedIn = true;
+//       _username = username;
+//       _password = password;
+//       _email = email;
+//       _userRole = role;
+//       notifyListeners();
+//     }
+//   } else {
+//     throw Exception('Failed to sign up');
+//   }
 // }

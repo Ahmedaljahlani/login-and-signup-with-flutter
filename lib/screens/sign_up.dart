@@ -90,6 +90,7 @@ class SignUpPage extends StatelessWidget {
 
   Widget _buildSignupIllustration() {
     return Image.asset(
+      height: 300,
       'assets/images/user_illustration.png', // replace with your image path
       fit: BoxFit.cover,
     );

@@ -39,6 +39,7 @@ dependencies:
   http: ^1.2.0
   shared_preferences: ^2.2.2
   double_back_to_exit: ^1.0.3
+  lottie: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,7 @@ flutter:
     - assets/images/bg.jpg
     - assets/images/user_illustration.png
     - assets/images/user_avatar.png
+    - assets/SignUp-Animation .json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

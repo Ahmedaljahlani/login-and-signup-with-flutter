@@ -1,4 +1,3 @@
-
 class User {
   final String? username;
   final String? email;
@@ -39,8 +38,6 @@ class User {
     );
   }
 }
-
-
 
 // class User {
 //   final String? username;
